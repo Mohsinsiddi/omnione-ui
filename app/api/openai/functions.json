@@ -1,0 +1,181 @@
+{
+  "functions": [
+    {
+      "name": "fetchSolanaNFTs",
+      "description": "Fetch user's solana NFTs",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "dummy_property": {
+            "type": "string",
+            "description": "leave this empty"
+          }
+        }
+      }
+    },
+    {
+      "name": "fetchEthereumNFTs",
+      "description": "Fetch user's ethereum or sepolia NFTs",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "dummy_property": {
+            "type": "string",
+            "description": "leave this empty"
+          }
+        }
+      }
+    },
+    {
+      "name": "swapNFTSolanaToEthereumByName",
+      "description": "Swap NFT from Solana to Ethereum/Sepolia by name",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "NFTName": {
+            "type": "string",
+            "description": "NFT name"
+          }
+        },
+        "required": ["NFTName"]
+      }
+    },
+    {
+      "name": "swapNFTEthereumToSuiByName",
+      "description": "Swap NFT from Ethereum/Sepolia to Sui by name",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "NFTName": {
+            "type": "string",
+            "description": "NFT name"
+          }
+        },
+        "required": ["NFTName"]
+      }
+    },
+    {
+      "name": "swapNFTSolanaToEthereum",
+      "description": "Swap NFT from Solana to Ethereum given Solana's mint address",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "mintAddress": {
+            "type": "string",
+            "description": "Solana NFT mint address"
+          }
+        },
+        "required": ["mintAddress"]
+      }
+    },
+    {
+      "name": "swapNFTEthereumToSui",
+      "description": "Swap NFT from Ethereum to Solana given Ethereum's contract address and token ID",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "contractAddress": {
+            "type": "string",
+            "description": "Ethereum NFT contract address"
+          },
+          "tokenId": {
+            "type": "string",
+            "description": "Ethereum NFT token ID"
+          }
+        },
+        "required": ["contractAddress", "tokenId"]
+      }
+    },
+    {
+      "name": "swapMultipleNFTsSolanaToEthereumByName",
+      "description": "Swap multiple NFTs by names from Solana to Ethereum",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "NFTNames": {
+            "type": "array",
+            "description": "Array of NFT names",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": ["NFTNames"]
+      }
+    },
+    {
+      "name": "swapMultipleNFTsEthereumToSolanaByName",
+      "description": "Swap multiple NFTs by names from Ethereum to Solana",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "NFTNames": {
+            "type": "array",
+            "description": "Array of NFT names",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": ["NFTNames"]
+      }
+    },
+    {
+      "name": "swapMultipleNFTsSolanaToEthereum",
+      "description": "Swap multiple NFTs from Solana to Ethereum given Solana's mint addresses",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "mintAddresses": {
+            "type": "array",
+            "description": "Array of Solana NFT mint addresses",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": ["mintAddresses"]
+      }
+    },
+    {
+      "name": "swapMultipleNFTsEthereumToSolana",
+      "description": "Swap multiple NFTs from Ethereum to Solana",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "NFTs": {
+            "type": "array",
+            "description": "Array of NFT objects",
+            "items": {
+              "type": "object",
+              "properties": {
+                "contractAddress": {
+                  "type": "string",
+                  "description": "Ethereum contract address"
+                },
+                "tokenId": {
+                  "type": "string",
+                  "description": "Token ID of the NFT"
+                }
+              },
+              "required": ["contractAddress", "tokenId"]
+            }
+          }
+        },
+        "required": ["NFTs"]
+      }
+    }
+  ],
+  "solanaSwaps": [
+    "swapNFTSolanaToEthereumByName",
+    "swapNFTSolanaToEthereum",
+    "swapMultipleNFTsSolanaToEthereumByName",
+    "swapMultipleNFTsSolanaToEthereum"
+  ],
+  "ethereumSwaps": [
+    "swapNFTEthereumToSuiByName",
+    "swapNFTEthereumToSui",
+    "swapMultipleNFTsEthereumToSolanaByName",
+    "swapMultipleNFTsEthereumToSolana"
+  ]
+}
