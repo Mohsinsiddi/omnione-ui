@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  name               String?
+  image              String?
+  walletAddressOnEth String?  @unique
+  walletAddressOnSol String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  projects       Project[]
+  portActivities PortActivity[]
+}
+
+model Project {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name                       String?
+  image                      String?
+  symbol                     String?
+  typeOnEth                  String?
+  isPorted                   Boolean?
+  collectionAddressOnEth     String?
+  collectionSupply           String?
+  ownerAddressOnEth          String?
+  ownerAddresOnSol           String?
+  sourceChain                String?
+  destinationChain           String?
+  isVerified                 Boolean?
+  updateAuthorityOnSol       String?
+  creatorAddresOnSol         String?
+  sellerBasisPointOnSol      String?
+  collectionMintAddressOnSol String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([collectionAddressOnEth, ownerAddressOnEth], name: "uniqueCollectionForUser")
+}
+
+model PortActivity {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  projectId String @db.ObjectId
+}
