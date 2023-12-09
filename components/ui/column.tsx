@@ -51,7 +51,7 @@ export const columns: ColumnDef<ProjectDataType>[] = [
   },
   {
     accessorKey: "ownerAddresOnSol",
-    header: "Owner Address(SUI)",
+    header: "Owner Address(NonEVM)",
   },
   {
     accessorKey: "sourceChain",
@@ -67,18 +67,18 @@ export const columns: ColumnDef<ProjectDataType>[] = [
   },
   {
     accessorKey: "creatorAddresOnSol",
-    header: "Creator Address(SUI)",
+    header: "Creator Address(NonEVM)",
   },
   {
     accessorKey: "updateAuthorityOnSol",
-    header: "Update Authority(SUI)",
+    header: "Update Authority(NonEVM)",
   },
   {
     accessorKey: "sellerBasisPointOnSol",
-    header: "Seller Basis Points(SUI)",
+    header: "Seller Basis Points(NonEVM)",
   },
   {
     accessorKey: "collectionMintAddressOnSol",
-    header: "Collection Mint (SUI)",
+    header: "Collection Mint (NonEVM)",
   },
 ];

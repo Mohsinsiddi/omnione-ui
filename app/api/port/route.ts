@@ -81,7 +81,7 @@ export async function POST(request: Request) {
       user: true,
     },
     data: {
-      destinationChain: "SUI",
+      destinationChain: "ARB",
       isPorted: true,
       creatorAddresOnSol: creatorAddress,
       sellerBasisPointOnSol: royalty,

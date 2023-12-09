@@ -42,7 +42,7 @@
     },
     {
       "name": "swapNFTEthereumToSuiByName",
-      "description": "Swap NFT from Ethereum/Sepolia to Sui by name",
+      "description": "Swap NFT from Ethereum/Sepolia to NOnEVM by name",
       "parameters": {
         "type": "object",
         "properties": {
