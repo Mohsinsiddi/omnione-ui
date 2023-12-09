@@ -71,7 +71,6 @@ export async function POST(request: Request) {
 
   let signedTxn = (await wallet).sendTransaction(rawTxn);
   let reciept = (await signedTxn).wait();
-  console.log("reciept", reciept);
 
   const project = await prisma.project.update({
     where: {

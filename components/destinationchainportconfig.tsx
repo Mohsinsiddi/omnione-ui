@@ -34,7 +34,7 @@ const DestinationChainPortConfig: React.FC<
           {isPreviewed ? (
             <DestinationChainFrom />
           ) : (
-            <div className="h-[480px] flex justify-center items-center">
+            <div className="h-[540px] flex justify-center items-center">
               <div className="border-[1px] border-gray-500 p-4 rounded-lg">
                 Preview to PORT Project Data
               </div>
