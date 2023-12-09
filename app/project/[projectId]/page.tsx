@@ -66,7 +66,7 @@ const Page = async ({ params }: { params: IParams }) => {
       chains: chains,
       baseChainName: response.data.baseChainName,
       totalSupply: response.data.supply,
-      price: 1,
+      price: response.data.price,
     };
     projectData = p_data;
   } else {

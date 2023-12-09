@@ -1,6 +1,16 @@
 import React from "react";
 import { useCountdown } from "../hooks/useCountdown";
 import DateTimeDisplayProjectData from "./DateTimeDisplayProjectData";
+import {
+  useAccount,
+  useContractWrite,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
+import { OMNI_FACTORY_ABI } from "@app/web3const/abi";
+import { LOGO_MAPPER } from "@app/constants/chainlogos";
+import toast from "react-hot-toast";
+import { parseEther } from "viem";
 
 const ExpiredNotice = () => {
   return (
@@ -12,7 +22,70 @@ const ExpiredNotice = () => {
   );
 };
 
-const LiveNotice = () => {
+type ProjectDataType = {
+  image: string;
+  name: string;
+  isVerified: boolean;
+  collectionAddressOnEth: string;
+  createdAt: string;
+  duration: number;
+  chains: string[];
+  totalSupply: number;
+  price: number;
+};
+interface ProjectDetailsProps {
+  data: ProjectDataType;
+  chains: string[];
+}
+
+const LiveNotice: React.FC<ProjectDetailsProps> = ({ data, chains }) => {
+  const chainsId = chains.map((chain) => LOGO_MAPPER[chain]);
+  const account = useAccount();
+  const totalValue = chainsId.length * data.price;
+  const { config } = usePrepareContractWrite({
+    address: "0x55a41141F2a2494e701a7F06c332dC716f1afa7d",
+    abi: OMNI_FACTORY_ABI,
+    functionName: "srcnftmint",
+    args: [
+      data.collectionAddressOnEth,
+      account.address,
+      chainsId,
+      parseEther(data.price.toString()),
+    ],
+    value:
+      chainsId.length === 0
+        ? parseEther("0")
+        : parseEther(totalValue.toString()),
+  });
+  const {
+    data: mintCollectionFunc,
+    isLoading,
+    isSuccess: isSuccessMintColl,
+    write,
+    isIdle,
+    isError,
+  } = useContractWrite(config);
+
+  const {
+    data: txData,
+    isError: txIsError,
+    isLoading: txIsLoading,
+    isSuccess: txIsSuccess,
+  } = useWaitForTransaction({
+    hash: mintCollectionFunc?.hash,
+  });
+
+  React.useEffect(() => {
+    async function fetch() {
+      try {
+      } catch (error) {
+        toast.error("Error while minting");
+      } finally {
+      }
+    }
+    fetch();
+  }, [txIsSuccess]);
+
   return (
     <div className="flex flex-col">
       <div className="flex justify-center p-4">
@@ -87,16 +160,28 @@ const ShowCounter: React.FC<ShowCounterProps> = ({
 interface CountdownTimerProps {
   targetDate: number;
   duration: number;
+  data: ProjectDataType;
+  chains: string[];
 }
 
 const CountdownTimerProjectData: React.FC<CountdownTimerProps> = ({
   targetDate,
   duration,
+  data,
+  chains,
 }) => {
   const [days, hours, minutes, seconds] = useCountdown(targetDate);
 
   if (days + hours + minutes + seconds <= 0) {
-    return <div>{days >= -2 ? <LiveNotice /> : <ExpiredNotice />}</div>;
+    return (
+      <div>
+        {days >= -2 ? (
+          <LiveNotice data={data} chains={chains} />
+        ) : (
+          <ExpiredNotice />
+        )}
+      </div>
+    );
   } else {
     return (
       <ShowCounter

@@ -4,9 +4,13 @@ import * as React from "react";
 import { useState } from "react";
 import { useWallet as useSolanaWallet } from "@solana/wallet-adapter-react";
 import {
+  useContractWrite,
   useAccount as useEthereumWallet,
   useNetwork,
+  usePrepareContractWrite,
   useSignMessage,
+  useContractEvent,
+  useWaitForTransaction,
 } from "wagmi";
 import Textarea from "react-textarea-autosize";
 import { IconArrowElbow } from "@components/ui/icons";
@@ -58,6 +62,8 @@ import { DayPicker } from "react-day-picker";
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { LIGHTHOUSE_SDK_VERSION_NAME } from "@app/constants/constant";
 import toast from "react-hot-toast";
+import { OMNI_FACTORY_ABI } from "@app/web3const/abi";
+import { ethers } from "ethers";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -72,12 +78,18 @@ const formSchema = z.object({
   owner: z.string().min(20, {
     message: "onwer address must be at least 20 characters.",
   }),
+  price: z.string().min(0, {
+    message: "price must be at least 1 characters.",
+  }),
 
   royaltyAddress: z.string().min(20, {
     message: "collection address must be at least 20 characters.",
   }),
   baseuri: z.string().min(10, {
     message: "baseuri  must be at least 10 characters.",
+  }),
+  ext: z.string().min(2, {
+    message: "ext  must be at least 2 characters.",
   }),
   supply: z.string().min(0, {
     message: "supply must be at least 1 characters.",
@@ -107,6 +119,8 @@ const tokenLogo =
 const LaunchForm = () => {
   const [date, setDate] = React.useState<Date>();
 
+  const [projectDataToStore, setProjectData] = useState<any>();
+
   const [isTokenGatedUser, setTokenGatedUser] = useState(true);
 
   const network = useNetwork();
@@ -127,6 +141,7 @@ const LaunchForm = () => {
       supply: "10000",
       symbol: projectData.symbol,
       baseuri: "",
+      ext: ".json",
       chains: [""],
       ethSel: false,
       polySel: false,
@@ -139,6 +154,7 @@ const LaunchForm = () => {
       x1Sel: false,
       xdcSel: false,
       calender: "",
+      price: "0",
     },
   });
 
@@ -262,15 +278,151 @@ const LaunchForm = () => {
   const message = `I am signing for confirmation to deploy my ${form.getValues(
     "name"
   )} on selected chains `;
+
+  const name = form.watch("name");
+  const symbol = form.watch("symbol");
+  const image = form.watch("image");
+  const owner = form.watch("owner");
+  const royaltAddress = form.watch("royaltyAddress");
+  const totalSupply = form.watch("supply");
+  const baseUri = form.watch("baseuri");
+  const ext = form.watch("ext");
+  const isEth = form.watch("ethSel");
+  const isPoly = form.watch("polySel");
+  const isArb = form.watch("arbitriumSel");
+  const isScr = form.watch("scrollSel");
+  const isMantle = form.watch("mantleSel");
+  const isBase = form.watch("baseSel");
+  const isCelo = form.watch("celoSel");
+  const isZeta = form.watch("zetaSel");
+  const ixX1 = form.watch("x1Sel");
+  const isXDC = form.watch("xdcSel");
+  const chains = [];
+  if (isEth) {
+    chains.push("11155111");
+  }
+  if (isPoly) {
+    chains.push("1442");
+  }
+  if (isArb) {
+    chains.push("421613");
+  }
+  if (isScr) {
+    chains.push("534351");
+  }
+  if (isMantle) {
+    chains.push("5001");
+  }
+  if (isBase) {
+    chains.push("84531");
+  }
+  if (isCelo) {
+    chains.push("44787");
+  }
+  if (isZeta) {
+    chains.push("7001");
+  }
+  if (ixX1) {
+    chains.push("195");
+  }
+  if (isXDC) {
+    chains.push("51");
+  }
+
+  const initMul =
+    chains.length === 0
+      ? totalSupply
+      : Math.round(Number(totalSupply) / chains.length);
+
+  const { config } = usePrepareContractWrite({
+    address: "0x55a41141F2a2494e701a7F06c332dC716f1afa7d",
+    abi: OMNI_FACTORY_ABI,
+    functionName: "srccollmint",
+    args: [name, symbol, baseUri, ext, owner, chains, initMul],
+  });
+  const {
+    data: mintCollectionFunc,
+    isLoading,
+    isSuccess: isSuccessMintColl,
+    write,
+    isIdle,
+    isError,
+  } = useContractWrite(config);
+
   const waitForSignatureEth = async () => {
     return await signMessageAsync({ message });
   };
+  console.log(mintCollectionFunc);
+
+  const {
+    data: txData,
+    isError: txIsError,
+    isLoading: txIsLoading,
+    isSuccess: txIsSuccess,
+  } = useWaitForTransaction({
+    hash: mintCollectionFunc?.hash,
+  });
+
+  React.useEffect(() => {
+    async function fetch() {
+      try {
+        if (txIsSuccess) {
+          let collAddress = "";
+          if (
+            txData?.logs[2].topics[0] ===
+            "0xaf5858285f484ec2af514f32962c3045ff89984203e67fda8aaa5f3910eb5cc9"
+          ) {
+            const decodedEvent = ethers.utils.defaultAbiCoder.decode(
+              [
+                "uint256",
+                "string",
+                "string",
+                "string",
+                "string",
+                "address",
+                "address",
+                "uint256[]",
+                "uint256",
+              ],
+              txData.logs[2].data
+            );
+            collAddress = decodedEvent[6];
+            // console decoded data
+            console.log(decodedEvent);
+          }
+          const _data = {
+            ...projectDataToStore,
+            baseCollectionAddress: collAddress,
+          };
+          const data = JSON.stringify(_data, null, "\t");
+          console.log("Data", data);
+          const API_KEY = process.env.NEXT_PUBLIC_LIGHTHOUSE_API_KEY!;
+          const output = await lighthouse.uploadText(
+            data,
+            API_KEY,
+            LIGHTHOUSE_SDK_VERSION_NAME
+          );
+          if (output.data) {
+            toast.success("Project Created to omnilaunch successfully");
+          }
+          console.log("Output Data hash of create project", output.data);
+        }
+      } catch (error) {
+        toast.error("Error while staking");
+      } finally {
+      }
+    }
+    fetch();
+  }, [txIsSuccess]);
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const signature = await waitForSignatureEth();
-    const API_KEY = process.env.NEXT_PUBLIC_LIGHTHOUSE_API_KEY!;
+
     // blockchain interaction will return collectionAddress on baseChain and then we will map those with selected chains - [ collectionAddress awill be mapped and index in db]
+    write?.();
+
+    console.log("After");
     const collectionAddress = "0x08767BU78UHJKIOUjhgyuhjk9878iujb087g";
     const launchTimeStamp = new Date(date!).getTime();
     const projectData = {
@@ -282,9 +434,9 @@ const LaunchForm = () => {
       baseUri: values.baseuri,
       supply: values.supply,
       baseChainName: baseChainName,
-      baseCollectionAddress: collectionAddress,
       signature: signature,
       createdAt: launchTimeStamp,
+      price: values.price,
       chains: [
         {
           ETH: values.ethSel,
@@ -318,23 +470,14 @@ const LaunchForm = () => {
         },
       ],
     };
-    const data = JSON.stringify(projectData, null, "\t");
 
-    const output = await lighthouse.uploadText(
-      data,
-      API_KEY,
-      LIGHTHOUSE_SDK_VERSION_NAME
-    );
-    if (output.data) {
-      toast.success("Project Created to omnilaunch successfully");
-    }
-    console.log("Output Data hash of create project", output.data);
+    setProjectData(projectData);
   }
   return (
     <div className="">
       {isTokenGatedUser ? (
         <div className="w-screen h-100% max-h-[41rem] overflow-y-scroll flex justify-center mt-5">
-          <div className="w-2/5 h-[1248px] bg-gray-900 border-[1px] border-gray-600 p-10 rounded-lg shadow-lg bg-opacity-60">
+          <div className="w-2/5 h-[1480px] bg-gray-900 border-[1px] border-gray-600 p-10 rounded-lg shadow-lg bg-opacity-60">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -393,6 +536,20 @@ const LaunchForm = () => {
                 />
                 <FormField
                   control={form.control}
+                  name="price"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Mint Price</FormLabel>
+                      <FormControl>
+                        <Input placeholder="0.01 Ether" {...field} />
+                      </FormControl>
+                      <FormDescription>Set the mint price</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
                   name="royaltyAddress"
                   render={({ field }) => (
                     <FormItem>
@@ -421,6 +578,22 @@ const LaunchForm = () => {
                       </FormControl>
                       <FormDescription>
                         Add the project base URI
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="ext"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>URI Extention</FormLabel>
+                      <FormControl>
+                        <Input placeholder=".json" {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        Add the project base URI extention
                       </FormDescription>
                       <FormMessage />
                     </FormItem>

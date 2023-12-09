@@ -23,13 +23,20 @@ const ExpiredNotice = () => {
   );
 };
 
-const LiveNotice = () => {
+interface LiveNoticeProps {
+  data: string;
+}
+
+const LiveNotice: React.FC<LiveNoticeProps> = ({ data }) => {
+  const router = useRouter();
   return (
     <div className="flex flex-col">
       <div className="flex justify-center p-2">
         <button
           type="button"
-          onClick={() => {}}
+          onClick={() => {
+            router.push(`/project/${data}`);
+          }}
           className="py-[1px] px-2 inline-flex justify-center items-center gap-2 -ml-px first:rounded-l-lg first:ml-0 last:rounded-r-lg border font-extrabold  bg-gray-500 text-gray-700 align-middle hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-2 focus:ring-gray-100 transition-all text-md dark:bg-slate-300 dark:hover:bg-slate-500 dark:border-gray-700 dark:text-gray-800"
         >
           MINT NFT
@@ -107,7 +114,9 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
   const [days, hours, minutes, seconds] = useCountdown(targetDate);
 
   if (days + hours + minutes + seconds <= 0) {
-    return <div>{days >= -2 ? <LiveNotice /> : <ExpiredNotice />}</div>;
+    return (
+      <div>{days >= -2 ? <LiveNotice data={cid} /> : <ExpiredNotice />}</div>
+    );
   } else {
     return (
       <ShowCounter

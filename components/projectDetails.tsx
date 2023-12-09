@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import ImageRenderProjectDetails from "./ImageRendererProjectDetails";
 import CountdownTimerProjectData from "./countdownTimerProjectData";
 import ChainLogoRenderer from "./chainLogoProjectDetails";
@@ -20,8 +20,12 @@ interface ProjectDetailsProps {
   data: ProjectDataType;
 }
 const ProjectDetails: React.FC<ProjectDetailsProps> = ({ data }) => {
+  console.log("DATA", data);
   const selectedChainCSS = "border-[1px] border-gray-100";
   const mintedCount = 789;
+
+  const [selChains, setChains] = useState<string[]>([]);
+
   return (
     <div className="flex flex-col m-2">
       <div className="flex justify-center items-center text-5xl font-extrabold font-mono mt-4 border-[1px] border-gray-200 rounded-lg p-2">
@@ -44,7 +48,14 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ data }) => {
             <div className="">
               <div className="flex flex-wrap gap-x-2 justify-center items-center">
                 {data.chains.map((chain, index) => {
-                  return <ChainLogoRenderer logo={chain} key={index} />;
+                  return (
+                    <ChainLogoRenderer
+                      logo={chain}
+                      key={index}
+                      chains={selChains}
+                      setChains={setChains}
+                    />
+                  );
                 })}
               </div>
             </div>
@@ -54,6 +65,8 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ data }) => {
             <CountdownTimerProjectData
               targetDate={Number(data.createdAt)}
               duration={data.duration}
+              data={data}
+              chains={selChains}
             />
           </div>
         </div>

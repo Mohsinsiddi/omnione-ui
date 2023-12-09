@@ -513,3 +513,452 @@ export const BRDIGE_ABI = [
     type: "function",
   },
 ];
+
+export const OMNI_FACTORY_ABI = [
+  {
+    inputs: [],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "target",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "value",
+        type: "uint256",
+      },
+    ],
+    name: "FailedToWithdrawEth",
+    type: "error",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "symbol",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "baseURL",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "baseExt",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "srcCollectionAddress",
+        type: "address",
+      },
+    ],
+    name: "OMNIMINT",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "action",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "symbol",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "baseURL",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "baseExt",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "srcCollectionAddress",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256[]",
+        name: "chainIds",
+        type: "uint256[]",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "initIdMul",
+        type: "uint256",
+      },
+    ],
+    name: "SRCMINT",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "action",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "srcCollectionAddress",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "minter",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256[]",
+        name: "chainIds",
+        type: "uint256[]",
+      },
+    ],
+    name: "SRCNFTMINT",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "beneficiary",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "_projectAddress",
+        type: "address",
+      },
+    ],
+    name: "incentiviseProjects",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "omnichainaddressmapper",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_name",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_symbol",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_baseuri",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_baseExt",
+        type: "string",
+      },
+      {
+        internalType: "address",
+        name: "_owner",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "srcChainCollectionAddr",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_initId",
+        type: "uint256",
+      },
+    ],
+    name: "omnicollmint",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_srccollAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_to",
+        type: "address",
+      },
+    ],
+    name: "omninftmint",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "projectInfo",
+    outputs: [
+      {
+        internalType: "address",
+        name: "projectAddress",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "createdAt",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_name",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_symbol",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_baseuri",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_baseExt",
+        type: "string",
+      },
+      {
+        internalType: "address",
+        name: "_owner",
+        type: "address",
+      },
+      {
+        internalType: "uint256[]",
+        name: "_chainIds",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256",
+        name: "_initIdMul",
+        type: "uint256",
+      },
+    ],
+    name: "srccollmint",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_srccollAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_to",
+        type: "address",
+      },
+      {
+        internalType: "uint256[]",
+        name: "_chainIds",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256",
+        name: "_price",
+        type: "uint256",
+      },
+    ],
+    name: "srcnftmint",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "beneficiary",
+        type: "address",
+      },
+    ],
+    name: "withdraw",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "beneficiary",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "token",
+        type: "address",
+      },
+    ],
+    name: "withdrawToken",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    stateMutability: "payable",
+    type: "receive",
+  },
+];
