@@ -335,7 +335,7 @@ const LaunchForm = () => {
       : Math.round(Number(totalSupply) / chains.length);
 
   const { config } = usePrepareContractWrite({
-    address: "0x55a41141F2a2494e701a7F06c332dC716f1afa7d",
+    address: "0xbf18924bf9F40B7db77BDea102CD1a84927b7b49",
     abi: OMNI_FACTORY_ABI,
     functionName: "srccollmint",
     args: [name, symbol, baseUri, ext, owner, chains, initMul],
@@ -370,7 +370,7 @@ const LaunchForm = () => {
           let collAddress = "";
           if (
             txData?.logs[2].topics[0] ===
-            "0xaf5858285f484ec2af514f32962c3045ff89984203e67fda8aaa5f3910eb5cc9"
+            "0x2e0cbbd1590d16efb31ee9b0cdaa8d47d83e3ae9a2c5331fad81db9d85e35053"
           ) {
             const decodedEvent = ethers.utils.defaultAbiCoder.decode(
               [
@@ -388,7 +388,7 @@ const LaunchForm = () => {
             );
             collAddress = decodedEvent[6];
             // console decoded data
-            console.log(decodedEvent);
+            // console.log(decodedEvent);
           }
           const _data = {
             ...projectDataToStore,

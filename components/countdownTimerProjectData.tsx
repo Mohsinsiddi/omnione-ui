@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCountdown } from "../hooks/useCountdown";
 import DateTimeDisplayProjectData from "./DateTimeDisplayProjectData";
 import {
@@ -40,10 +40,18 @@ interface ProjectDetailsProps {
 
 const LiveNotice: React.FC<ProjectDetailsProps> = ({ data, chains }) => {
   const chainsId = chains.map((chain) => LOGO_MAPPER[chain]);
+
+  // const [isMinting, setIsMinting] = useState(false);
+
+  // if (chainsId.length === 0 && isMinting) {
+  //   toast.error("Please select chains to mint on");
+  // }
+
   const account = useAccount();
+
   const totalValue = chainsId.length * data.price;
   const { config } = usePrepareContractWrite({
-    address: "0x55a41141F2a2494e701a7F06c332dC716f1afa7d",
+    address: "0xbf18924bf9F40B7db77BDea102CD1a84927b7b49",
     abi: OMNI_FACTORY_ABI,
     functionName: "srcnftmint",
     args: [
@@ -91,7 +99,9 @@ const LiveNotice: React.FC<ProjectDetailsProps> = ({ data, chains }) => {
       <div className="flex justify-center p-4">
         <button
           type="button"
-          onClick={() => {}}
+          onClick={() => {
+            write?.();
+          }}
           className="py-[8px] px-6 inline-flex justify-center items-center gap-2 -ml-px first:rounded-l-lg first:ml-0 last:rounded-r-lg border font-extrabold  bg-green-500 text-gray-700 align-middle hover:bg-green-50 focus:z-10 focus:outline-none focus:ring-2 focus:ring-gray-100 transition-all text-lg dark:bg-green-300 dark:hover:bg-green-500 dark:border-gray-700 dark:text-gray-800"
         >
           MINT NFT

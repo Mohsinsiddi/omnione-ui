@@ -10,12 +10,12 @@ import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 
 const mainnet_config = {
-  apiKey: "RgOrfKi165dSVp2dBMORjWgib8vMM_U6", // Replace with your API key
+  apiKey: "SknoINsvb5mlZyM5PLf-62qDu4Wpht66", // Replace with your API key
   network: Network.ETH_MAINNET, // Replace with your network
 };
 
 const testnet_config = {
-  apiKey: "RgOrfKi165dSVp2dBMORjWgib8vMM_U6", // Replace with your API key
+  apiKey: "SknoINsvb5mlZyM5PLf-62qDu4Wpht66", // Replace with your API key
   network: Network.ETH_SEPOLIA, // Replace with your network
 };
 

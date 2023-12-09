@@ -223,7 +223,7 @@ const DestinationChainFrom: React.FC<DestinationChainFromProps> = () => {
             <FormItem>
               <FormLabel>ETHEREUM Owner Address</FormLabel>
               <FormControl>
-                <Input placeholder="3jnUm....iBmp4G" {...field} />
+                <Input placeholder="0x802D8....1adde57" {...field} />
               </FormControl>
               <FormDescription>Owner Address on ETHEREUM</FormDescription>
               <FormMessage />
@@ -237,7 +237,7 @@ const DestinationChainFrom: React.FC<DestinationChainFromProps> = () => {
             <FormItem>
               <FormLabel>Creator Address</FormLabel>
               <FormControl>
-                <Input placeholder="3jnUm....iBmp4G" {...field} />
+                <Input placeholder="0x802D8....1adde57" {...field} />
               </FormControl>
               <FormDescription>Royalty Wallet Address</FormDescription>
               <FormMessage />
@@ -304,7 +304,7 @@ const DestinationChainFrom: React.FC<DestinationChainFromProps> = () => {
         />
         <div className="flex flex-col justify-center">
           {" "}
-          <Button type="submit">Confirm and Port to ETHEREUM</Button>
+          <Button type="submit">Confirm and Port to New Chain</Button>
         </div>
       </form>
       {isLoading && <LoadingModal />}

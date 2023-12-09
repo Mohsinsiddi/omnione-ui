@@ -20,7 +20,6 @@ interface ProjectDetailsProps {
   data: ProjectDataType;
 }
 const ProjectDetails: React.FC<ProjectDetailsProps> = ({ data }) => {
-  console.log("DATA", data);
   const selectedChainCSS = "border-[1px] border-gray-100";
   const mintedCount = 789;
 

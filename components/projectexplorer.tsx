@@ -66,7 +66,6 @@ const ProjectExplorer = () => {
           const response = await axios.get(
             `https://gateway.lighthouse.storage/ipfs/${cid}`
           );
-          console.log(response.data);
           if (response.status === 200) {
             const chains = [];
             for (var j = 0; j < response.data.chains.length; j++) {

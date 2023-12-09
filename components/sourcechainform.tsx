@@ -147,7 +147,7 @@ const SourceChainFrom: React.FC<SourceChainFromProps> = () => {
         />
         <div className="flex justify-center gap-x-1">
           {" "}
-          <Button type="submit">Confirm and Preview for Polygon</Button>
+          <Button type="submit">Confirm and Preview for Migration</Button>
           <Button
             type="reset"
             onClick={() => {
