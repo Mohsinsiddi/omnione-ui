@@ -22,7 +22,7 @@ const DestinationChainPortConfig: React.FC<
     <div className="w-screen h-[100%] max-h-[44rem] self-start overflow-y-scroll border-[1px] border-gray-100 flex justify-center rounded-lg pt-2">
       <div className="flex flex-col gap-2">
         <div className="flex justify-center font-extrabold text-4xl font-mono underline">
-          SUI
+          ETHEREUM
         </div>
         <div className="flex justify-center">
           <ImageRenderPortProjects

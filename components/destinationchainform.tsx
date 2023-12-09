@@ -100,7 +100,7 @@ const DestinationChainFrom: React.FC<DestinationChainFromProps> = () => {
   const { data, error, signMessage, variables, isSuccess, status } =
     useSignMessage();
   const message =
-    "I am signing for confirmation to move my project from ETHEREUM to SUI and I am paying 10 SUI to PORTDAO deployed on SUI";
+    "I am signing for confirmation to move my project from ETHEREUM to BASE and I am paying 10 BASE to PORTDAO deployed on BASE";
   const waitForSignatureEth = async () => {
     signMessage({ message });
   };
@@ -140,7 +140,7 @@ const DestinationChainFrom: React.FC<DestinationChainFromProps> = () => {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (!wallet.connected) {
-      toast.error("Please connect SUI wallet");
+      toast.error("Please connect EVM wallet");
       return;
     }
     setIsLoading(true);
@@ -221,11 +221,11 @@ const DestinationChainFrom: React.FC<DestinationChainFromProps> = () => {
           name="solowner"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>SUI Owner Address</FormLabel>
+              <FormLabel>ETHEREUM Owner Address</FormLabel>
               <FormControl>
                 <Input placeholder="3jnUm....iBmp4G" {...field} />
               </FormControl>
-              <FormDescription>Owner Address on SUI</FormDescription>
+              <FormDescription>Owner Address on ETHEREUM</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -304,7 +304,7 @@ const DestinationChainFrom: React.FC<DestinationChainFromProps> = () => {
         />
         <div className="flex flex-col justify-center">
           {" "}
-          <Button type="submit">Confirm and Port to SUI</Button>
+          <Button type="submit">Confirm and Port to ETHEREUM</Button>
         </div>
       </form>
       {isLoading && <LoadingModal />}

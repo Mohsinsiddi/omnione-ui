@@ -80,7 +80,7 @@ const Dashboard: React.FC<DashboardProps> = ({
 
   const handlePortProject = (projectData: Project) => {
     if (!suiWallet.connected) {
-      toast.error("Please connect your SUI wallet");
+      toast.error("Please connect your EVM wallet");
       return;
     }
 
