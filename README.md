@@ -25,3 +25,25 @@ BASE GOERLI TESTNET SMART CONTRACT LINK = https://goerli.basescan.org/address/0x
 ZETA TESTNET SMART CONTRACT LINK = https://explorer.zetachain.com/address/0xEd22DCA00B4d71F08bc184574b028c4Dc53479DE
   
 X1 TESTNET SMART CONTRACT LINK = https://www.oklink.com/x1-test/address/0xed22dca00b4d71f08bc184574b028c4dc53479de
+
+FOR SCROLL VERIFICATION ISSUE :
+
+hardhat-verify found one or more errors during the verification process:
+
+Etherscan:
+Trying to verify a contract in a network with chain id 534351, but the plugin doesn't recognize it as a supported chain.
+
+You can manually add support for it by following these instructions: https://hardhat.org/verify-custom-networks
+
+To see the list of supported networks, run this command:
+
+  <img width="286" alt="Screenshot 2023-12-10 at 9 31 23 AM" src="https://github.com/Mohsinsiddi/omnione-ui/assets/47236913/b8cb58b3-57f5-47e1-a110-e28b3035d7a1">
+
+Sourcify:
+An unexpected error occurred during the verification process.
+Please report this issue to the Hardhat team.
+Error Details: Failed to send contract verification request.
+Endpoint URL: https://sourcify.dev/server/check-all-by-addresses?addresses=0xEd22DCA00B4d71F08bc184574b028c4Dc53479DE&chainIds=534351
+The HTTP server response is not ok. Status code: 500 Response text: {"error":"Invalid chainIds: 534351","message":"Invalid chainIds: 534351"}
+
+
