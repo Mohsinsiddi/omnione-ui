@@ -39,7 +39,7 @@ const chartConfig = {
 const PortDashboard = () => {
   return (
     <div className="flex justify-around items-center mx-[40px] my-[0] mt-16">
-      <div>
+      {/* <div>
         <div className="flex justify-center items-center mb-4 font-serif font-extrabold text-3xl">
           TOTAL PORTFOLIO
         </div>
@@ -71,7 +71,7 @@ const PortDashboard = () => {
             <Chart {...chartConfig} />
           </CardBody>
         </Card>
-      </div>
+      </div> */}
       <div>
         <div className="flex justify-center items-center mb-4 font-serif font-extrabold text-3xl">
           STAKING REWARDS

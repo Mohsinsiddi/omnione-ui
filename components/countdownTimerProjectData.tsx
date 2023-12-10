@@ -4,6 +4,7 @@ import DateTimeDisplayProjectData from "./DateTimeDisplayProjectData";
 import {
   useAccount,
   useContractWrite,
+  useNetwork,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
@@ -11,6 +12,7 @@ import { OMNI_FACTORY_ABI } from "@app/web3const/abi";
 import { LOGO_MAPPER } from "@app/constants/chainlogos";
 import toast from "react-hot-toast";
 import { parseEther } from "viem";
+import { ADDR_MAP } from "@app/constants/constant";
 
 const ExpiredNotice = () => {
   return (
@@ -39,19 +41,16 @@ interface ProjectDetailsProps {
 }
 
 const LiveNotice: React.FC<ProjectDetailsProps> = ({ data, chains }) => {
+  // @ts-ignore
   const chainsId = chains.map((chain) => LOGO_MAPPER[chain]);
-
-  // const [isMinting, setIsMinting] = useState(false);
-
-  // if (chainsId.length === 0 && isMinting) {
-  //   toast.error("Please select chains to mint on");
-  // }
+  const { chain } = useNetwork();
 
   const account = useAccount();
 
   const totalValue = chainsId.length * data.price;
   const { config } = usePrepareContractWrite({
-    address: "0xbf18924bf9F40B7db77BDea102CD1a84927b7b49",
+    // @ts-ignore
+    address: ADDR_MAP[chain?.id],
     abi: OMNI_FACTORY_ABI,
     functionName: "srcnftmint",
     args: [

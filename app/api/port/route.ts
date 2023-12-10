@@ -62,6 +62,7 @@ export async function POST(request: Request) {
       royalty,
       name,
       symbol,
+      owner,
       description,
       {
         gasPrice: feeData,

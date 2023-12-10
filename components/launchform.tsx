@@ -60,7 +60,7 @@ import {
 import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
-import { LIGHTHOUSE_SDK_VERSION_NAME } from "@app/constants/constant";
+import { ADDR_MAP, LIGHTHOUSE_SDK_VERSION_NAME } from "@app/constants/constant";
 import toast from "react-hot-toast";
 import { OMNI_FACTORY_ABI } from "@app/web3const/abi";
 import { ethers } from "ethers";
@@ -117,6 +117,7 @@ const tokenLogo =
   "https://altcoinsbox.com/wp-content/uploads/2023/01/etherscan-logo.png";
 
 const LaunchForm = () => {
+  const { chain } = useNetwork();
   const [date, setDate] = React.useState<Date>();
 
   const [projectDataToStore, setProjectData] = useState<any>();
@@ -326,16 +327,17 @@ const LaunchForm = () => {
     chains.push("195");
   }
   if (isXDC) {
-    chains.push("51");
+    chains.push("314159");
   }
 
   const initMul =
     chains.length === 0
       ? totalSupply
-      : Math.round(Number(totalSupply) / chains.length);
+      : Math.round(Number(totalSupply) / (chains.length + 1));
 
   const { config } = usePrepareContractWrite({
-    address: "0xbf18924bf9F40B7db77BDea102CD1a84927b7b49",
+    // @ts-ignore
+    address: ADDR_MAP[chain?.id],
     abi: OMNI_FACTORY_ABI,
     functionName: "srccollmint",
     args: [name, symbol, baseUri, ext, owner, chains, initMul],
@@ -352,7 +354,6 @@ const LaunchForm = () => {
   const waitForSignatureEth = async () => {
     return await signMessageAsync({ message });
   };
-  console.log(mintCollectionFunc);
 
   const {
     data: txData,
@@ -422,8 +423,6 @@ const LaunchForm = () => {
     // blockchain interaction will return collectionAddress on baseChain and then we will map those with selected chains - [ collectionAddress awill be mapped and index in db]
     write?.();
 
-    console.log("After");
-    const collectionAddress = "0x08767BU78UHJKIOUjhgyuhjk9878iujb087g";
     const launchTimeStamp = new Date(date!).getTime();
     const projectData = {
       name: values.name,
@@ -772,7 +771,7 @@ const LaunchForm = () => {
                           </div>
                           <div className="flex items-center space-x-2">
                             <Checkbox id="xdc" />
-                            <Label htmlFor="xdc">XDC Network</Label>
+                            <Label htmlFor="xdc">Filecoin Network</Label>
                           </div>
                         </div>
                       </div>

@@ -2,8 +2,6 @@
 import UserNFTDashboard from "@components/UserNFTs";
 import UserPortfolio from "@components/portfolio";
 
-import ProjectExplorer from "@components/projectexplorer";
-import LaunchForm from "@components/launchform";
 import { useState } from "react";
 
 function Page() {
